@@ -37,7 +37,7 @@ export const INTEGRANTES_GRUPO: Integrante[] = [
     bio: 'Responsável pela modelagem conceitual, lógica e relacional no Oracle Data Modeler, criação das 6 tabelas do contrato (tb_usuario, tb_tipo_local, tb_local_acessivel, tb_relato, tb_recurso_acessibilidade e tb_local_recurso), carga de 60 registros e 10 consultas analíticas.',
     habilidades:['React', 'TypeScript', 'Tailwind CSS', 'Fetch API', 'Acessibilidade WCAG', 'UX Writing'],
     github: 'https://github.com/GRibeiro-developer',
-    linkedin: 'www.linkedin.com/in/gabrielribeiro-fullstack',
+    linkedin:'https://www.linkedin.com/in/gabrielribeiro-fullstack/',
     fotoUrl: 'https://ui-avatars.com/api/?name=Gabriel+Augusto&background=b45309&color=fff&size=256&bold=true',
   },
   {
