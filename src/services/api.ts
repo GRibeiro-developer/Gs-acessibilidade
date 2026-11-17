@@ -7,13 +7,26 @@ const STORAGE_KEY_API_OVERRIDE = 'rotalivre_api_url_override';
  * Prioriza override manual salvo pelo avaliador/desenvolvedor na UI,
  * depois a variável de ambiente VITE_API_URL.
  */
+const URL_OFICIAL_RENDER = 'https://rotalivre-gs.onrender.com';
+const URL_ANTIGA_PLACEHOLDER = 'https://rotalivre-api.onrender.com';
+
 export function getApiBaseUrl(): string {
   const override = localStorage.getItem(STORAGE_KEY_API_OVERRIDE);
   if (override && override.trim().length > 0) {
-    return override.trim().replace(/\/+$/, '');
+    const limpa = override.trim().replace(/\/+$/, '');
+    if (limpa === URL_ANTIGA_PLACEHOLDER) {
+      localStorage.removeItem(STORAGE_KEY_API_OVERRIDE);
+      return URL_OFICIAL_RENDER;
+    }
+    return limpa;
   }
-  const envUrl = import.meta.env.VITE_API_URL || 'https://rotalivre-api.onrender.com';
-  return String(envUrl).trim().replace(/\/+$/, '');
+  const envUrl = String(import.meta.env.VITE_API_URL || URL_OFICIAL_RENDER)
+    .trim()
+    .replace(/\/+$/, '');
+  if (!envUrl || envUrl === URL_ANTIGA_PLACEHOLDER) {
+    return URL_OFICIAL_RENDER;
+  }
+  return envUrl;
 }
 
 export function setApiBaseUrlOverride(novaUrl: string | null): void {

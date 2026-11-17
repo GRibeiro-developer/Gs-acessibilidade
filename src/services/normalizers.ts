@@ -26,6 +26,29 @@ function toString(val: unknown, fallback = ''): string {
   return fallback;
 }
 
+function extrairIdPrimario(obj: RawRecord, chavesPrioritarias: string[]): number {
+  for (const chave of chavesPrioritarias) {
+    const valor = toNumber(obj[chave], 0);
+    if (valor > 0) return valor;
+  }
+  // Busca fallback por qualquer chave de código/id que não seja FK de tipo
+  for (const [k, v] of Object.entries(obj)) {
+    const lower = k.toLowerCase();
+    if (
+      !lower.includes('tipo') &&
+      (lower === 'codigo' ||
+        lower === 'id' ||
+        lower.startsWith('cd') ||
+        lower.startsWith('cod') ||
+        lower.startsWith('id'))
+    ) {
+      const num = toNumber(v, 0);
+      if (num > 0) return num;
+    }
+  }
+  return 0;
+}
+
 function normalizarTipoLocalCodigo(val: unknown, cdTipoLocal: number): CodigoTipoLocal {
   const texto = toString(val).toUpperCase().trim();
   if (
@@ -42,9 +65,9 @@ function normalizarTipoLocalCodigo(val: unknown, cdTipoLocal: number): CodigoTip
 
 function normalizarSituacao(val: unknown): SituacaoRelato {
   const texto = toString(val).toUpperCase().trim();
-  if (texto === 'ACESSIVEL' || texto === 'PARCIAL' || texto === 'INACESSIVEL') {
-    return texto;
-  }
+  if (texto.includes('INACESSIVEL')) return 'INACESSIVEL';
+  if (texto.includes('PARCIAL')) return 'PARCIAL';
+  if (texto.includes('ACESSIVEL')) return 'ACESSIVEL';
   return 'PARCIAL';
 }
 
@@ -58,15 +81,28 @@ function normalizarStatusAtivo(val: unknown): StatusAtivo {
 export function normalizarUsuario(raw: unknown): Usuario {
   const obj = (raw && typeof raw === 'object' ? raw : {}) as RawRecord;
   return {
-    cdUsuario: toNumber(obj.cdUsuario ?? obj.cd_usuario ?? obj.idUsuario ?? obj.id, 0),
-    nmUsuario: toString(obj.nmUsuario ?? obj.nm_usuario ?? obj.nomeUsuario ?? obj.nome, 'Cidadão'),
-    dsEmail: toString(obj.dsEmail ?? obj.ds_email ?? obj.email, ''),
+    cdUsuario: extrairIdPrimario(obj, [
+      'codigo',
+      'codigoUsuario',
+      'cdUsuario',
+      'cd_usuario',
+      'idUsuario',
+      'id',
+    ]),
+    nmUsuario: toString(
+      obj.nome ?? obj.nmUsuario ?? obj.nm_usuario ?? obj.nomeUsuario,
+      'Cidadão'
+    ),
+    dsEmail: toString(obj.email ?? obj.dsEmail ?? obj.ds_email, ''),
     dsPerfilMobilidade: toString(
-      obj.dsPerfilMobilidade ?? obj.ds_perfil_mobilidade ?? obj.perfilMobilidade ?? obj.perfil,
-      'Cidadão colaborador'
+      obj.perfilMobilidade ??
+        obj.dsPerfilMobilidade ??
+        obj.ds_perfil_mobilidade ??
+        obj.perfil,
+      'CADEIRANTE'
     ),
     dtCadastro: toString(
-      obj.dtCadastro ?? obj.dt_cadastro ?? obj.dataCadastro,
+      obj.dataCadastro ?? obj.dtCadastro ?? obj.dt_cadastro,
       new Date().toISOString()
     ),
   };
@@ -79,50 +115,74 @@ export function normalizarRelato(raw: unknown, cdLocalFallback = 0): Relato {
   const localAninhado =
     obj.local && typeof obj.local === 'object' ? (obj.local as RawRecord) : undefined;
 
-  return {
-    cdRelato: toNumber(obj.cdRelato ?? obj.cd_relato ?? obj.idRelato ?? obj.id, 0),
-    cdLocal: toNumber(
-      obj.cdLocal ??
+  const cdRelato = extrairIdPrimario(obj, [
+    'codigo',
+    'codigoRelato',
+    'cdRelato',
+    'cd_relato',
+    'idRelato',
+    'id',
+  ]);
+
+  const cdLocal =
+    toNumber(
+      obj.codigoLocal ??
+        obj.cdLocal ??
         obj.cd_local ??
         obj.idLocal ??
+        localAninhado?.codigo ??
         localAninhado?.cdLocal ??
         localAninhado?.id,
-      cdLocalFallback
-    ),
-    cdUsuario: toNumber(
-      obj.cdUsuario ??
-        obj.cd_usuario ??
-        obj.idUsuario ??
-        usuarioAninhado?.cdUsuario ??
-        usuarioAninhado?.id,
       0
-    ),
+    ) || cdLocalFallback;
+
+  const cdUsuario = toNumber(
+    obj.codigoUsuario ??
+      obj.cdUsuario ??
+      obj.cd_usuario ??
+      obj.idUsuario ??
+      usuarioAninhado?.codigo ??
+      usuarioAninhado?.cdUsuario ??
+      usuarioAninhado?.id,
+    0
+  );
+
+  return {
+    cdRelato,
+    cdLocal,
+    cdUsuario,
     nmUsuario: toString(
-      obj.nmUsuario ??
+      obj.nomeUsuario ??
+        obj.nmUsuario ??
         obj.nm_usuario ??
-        obj.nomeUsuario ??
-        usuarioAninhado?.nmUsuario ??
-        usuarioAninhado?.nome,
+        usuarioAninhado?.nome ??
+        usuarioAninhado?.nmUsuario,
       ''
     ),
     dsEmail: toString(
-      obj.dsEmail ?? obj.ds_email ?? obj.emailUsuario ?? usuarioAninhado?.dsEmail ?? usuarioAninhado?.email,
+      obj.emailUsuario ??
+        obj.email ??
+        obj.dsEmail ??
+        obj.ds_email ??
+        usuarioAninhado?.email ??
+        usuarioAninhado?.dsEmail,
       ''
     ),
     dsPerfilMobilidade: toString(
-      obj.dsPerfilMobilidade ??
+      obj.perfilMobilidade ??
+        obj.dsPerfilMobilidade ??
         obj.ds_perfil_mobilidade ??
-        usuarioAninhado?.dsPerfilMobilidade ??
-        usuarioAninhado?.perfilMobilidade,
+        usuarioAninhado?.perfilMobilidade ??
+        usuarioAninhado?.dsPerfilMobilidade,
       ''
     ),
-    dsSituacao: normalizarSituacao(obj.dsSituacao ?? obj.ds_situacao ?? obj.situacao),
+    dsSituacao: normalizarSituacao(obj.situacao ?? obj.dsSituacao ?? obj.ds_situacao),
     dsObservacao: toString(
-      obj.dsObservacao ?? obj.ds_observacao ?? obj.observacao ?? obj.comentario,
+      obj.observacao ?? obj.dsObservacao ?? obj.ds_observacao ?? obj.comentario,
       ''
     ),
     dtRelato: toString(
-      obj.dtRelato ?? obj.dt_relato ?? obj.dataRelato ?? obj.createdAt,
+      obj.dataRelato ?? obj.data ?? obj.dtRelato ?? obj.dt_relato ?? obj.createdAt,
       new Date().toISOString()
     ),
   };
@@ -131,35 +191,62 @@ export function normalizarRelato(raw: unknown, cdLocalFallback = 0): Relato {
 export function normalizarLocalRecurso(raw: unknown, cdLocalFallback = 0): LocalRecurso {
   const obj = (raw && typeof raw === 'object' ? raw : {}) as RawRecord;
   return {
-    cdLocal: toNumber(obj.cdLocal ?? obj.cd_local ?? obj.idLocal, cdLocalFallback),
-    cdRecurso: toNumber(obj.cdRecurso ?? obj.cd_recurso ?? obj.idRecurso ?? obj.id, 0),
-    nmRecurso: toString(obj.nmRecurso ?? obj.nm_recurso ?? obj.nomeRecurso ?? obj.nome, ''),
-    dsRecurso: toString(obj.dsRecurso ?? obj.ds_recurso ?? obj.descricao, ''),
-    stDisponivel: normalizarStatusAtivo(obj.stDisponivel ?? obj.st_disponivel ?? obj.disponivel),
+    cdLocal: toNumber(obj.codigoLocal ?? obj.cdLocal ?? obj.cd_local ?? obj.idLocal, cdLocalFallback),
+    cdRecurso: extrairIdPrimario(obj, [
+      'codigoRecurso',
+      'codigo',
+      'cdRecurso',
+      'cd_recurso',
+      'idRecurso',
+      'id',
+    ]),
+    nmRecurso: toString(obj.nome ?? obj.nmRecurso ?? obj.nm_recurso ?? obj.nomeRecurso, ''),
+    dsRecurso: toString(obj.descricao ?? obj.dsRecurso ?? obj.ds_recurso, ''),
+    stDisponivel: normalizarStatusAtivo(
+      obj.disponivel ?? obj.stDisponivel ?? obj.st_disponivel
+    ),
     dtVerificacao: toString(
-      obj.dtVerificacao ?? obj.dt_verificacao ?? obj.dataVerificacao,
+      obj.dataVerificacao ?? obj.dtVerificacao ?? obj.dt_verificacao,
       new Date().toISOString()
     ),
   };
 }
 
-export function normalizarLocalAcessivel(raw: unknown): LocalAcessivel {
+export function normalizarLocalAcessivel(raw: unknown, fallbackIndex = 0): LocalAcessivel {
   const obj = (raw && typeof raw === 'object' ? raw : {}) as RawRecord;
   const tipoAninhado =
     obj.tipoLocal && typeof obj.tipoLocal === 'object' ? (obj.tipoLocal as RawRecord) : undefined;
 
-  const cdLocal = toNumber(obj.cdLocal ?? obj.cd_local ?? obj.idLocal ?? obj.id, 0);
+  const cdLocalExtraido = extrairIdPrimario(obj, [
+    'codigo',
+    'codigoLocal',
+    'cdLocal',
+    'cd_local',
+    'codLocal',
+    'idLocal',
+    'id',
+  ]);
+  const cdLocal = cdLocalExtraido > 0 ? cdLocalExtraido : fallbackIndex;
+
   const cdTipoLocal = toNumber(
-    obj.cdTipoLocal ??
+    obj.codigoTipoLocal ??
+      obj.cdTipoLocal ??
       obj.cd_tipo_local ??
       obj.idTipoLocal ??
+      tipoAninhado?.codigo ??
       tipoAninhado?.cdTipoLocal ??
       tipoAninhado?.id,
     1
   );
 
   const nmTipoLocal = normalizarTipoLocalCodigo(
-    obj.nmTipoLocal ?? obj.nm_tipo_local ?? obj.tipo ?? tipoAninhado?.nmTipoLocal ?? tipoAninhado?.nome,
+    obj.nomeTipoLocal ??
+      obj.tipoLocal ??
+      obj.nmTipoLocal ??
+      obj.nm_tipo_local ??
+      obj.tipo ??
+      tipoAninhado?.nome ??
+      tipoAninhado?.nmTipoLocal,
     cdTipoLocal
   );
 
@@ -170,27 +257,33 @@ export function normalizarLocalAcessivel(raw: unknown): LocalAcessivel {
     cdLocal,
     cdTipoLocal,
     nmTipoLocal,
-    nmLocal: toString(obj.nmLocal ?? obj.nm_local ?? obj.nomeLocal ?? obj.nome, 'Local sem nome'),
+    nmLocal: toString(
+      obj.nome ?? obj.nomeLocal ?? obj.nmLocal ?? obj.nm_local,
+      'Local sem nome'
+    ),
     dsEndereco: toString(
-      obj.dsEndereco ?? obj.ds_endereco ?? obj.endereco,
+      obj.endereco ?? obj.dsEndereco ?? obj.ds_endereco,
       'Endereço não informado'
     ),
-    vlLatitude: toNumber(obj.vlLatitude ?? obj.vl_latitude ?? obj.latitude ?? obj.lat, -23.5641),
+    vlLatitude: toNumber(
+      obj.latitude ?? obj.vlLatitude ?? obj.vl_latitude ?? obj.lat,
+      -23.5641
+    ),
     vlLongitude: toNumber(
-      obj.vlLongitude ?? obj.vl_longitude ?? obj.longitude ?? obj.lon ?? obj.lng,
+      obj.longitude ?? obj.vlLongitude ?? obj.vl_longitude ?? obj.lon ?? obj.lng,
       -46.6524
     ),
     vlInclinacaoPct: toNumber(
-      obj.vlInclinacaoPct ?? obj.vl_inclinacao_pct ?? obj.inclinacaoPct ?? obj.inclinacao,
+      obj.inclinacaoPct ?? obj.vlInclinacaoPct ?? obj.vl_inclinacao_pct ?? obj.inclinacao,
       0
     ),
     vlLarguraCm: toNumber(
-      obj.vlLarguraCm ?? obj.vl_largura_cm ?? obj.larguraCm ?? obj.largura,
+      obj.larguraCm ?? obj.vlLarguraCm ?? obj.vl_largura_cm ?? obj.largura,
       120
     ),
-    stAtivo: normalizarStatusAtivo(obj.stAtivo ?? obj.st_ativo ?? obj.ativo),
+    stAtivo: normalizarStatusAtivo(obj.ativo ?? obj.statusAtivo ?? obj.stAtivo ?? obj.st_ativo),
     dtCadastro: toString(
-      obj.dtCadastro ?? obj.dt_cadastro ?? obj.dataCadastro,
+      obj.dataCadastro ?? obj.dtCadastro ?? obj.dt_cadastro,
       new Date().toISOString()
     ),
     relatos: relatosRaw ? relatosRaw.map((r) => normalizarRelato(r, cdLocal)) : undefined,
@@ -205,7 +298,9 @@ export function normalizarLocalAcessivel(raw: unknown): LocalAcessivel {
         ? toNumber(obj.pontuacaoAcessibilidade)
         : undefined,
     statusConfirmacao:
-      obj.statusConfirmacao === 'CONFIRMADO' || obj.confirmado === true
+      obj.statusConfirmacao === 'CONFIRMADO' ||
+      obj.confirmado === true ||
+      toString(obj.nivelAcessibilidade).toUpperCase().includes('CONFIRMADO')
         ? 'CONFIRMADO'
         : undefined,
     totalRelatos30Dias:

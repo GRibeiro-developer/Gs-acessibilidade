@@ -4,14 +4,23 @@ import { extrairListaDaResposta, normalizarLocalAcessivel } from './normalizers'
 
 /**
  * Serviços HTTP (Fetch API) para a entidade LocalAcessivel (/locais)
- * Segue a tabela de rotas da seção 4 do Guia do Grupo (GET, POST, PUT, DELETE).
+ * Nomes dos campos no body JSON seguem estritamente os DTOs da API Java (Insomnia req_15 e req_18):
+ * {
+ *   "codigoTipoLocal": 2,
+ *   "nome": "Rampa Teste",
+ *   "endereco": "Av. Paulista, 1500",
+ *   "latitude": -23.5614,
+ *   "longitude": -46.6559,
+ *   "inclinacaoPct": 7.5,
+ *   "larguraCm": 120
+ * }
  */
 export async function listarLocais(): Promise<LocalAcessivel[]> {
   const { data } = await apiFetch<unknown>('/locais', {
     method: 'GET',
   });
   const listaBruta = extrairListaDaResposta(data);
-  return listaBruta.map((item) => normalizarLocalAcessivel(item));
+  return listaBruta.map((item, idx) => normalizarLocalAcessivel(item, idx + 1));
 }
 
 export async function buscarLocalPorId(cdLocal: number): Promise<LocalAcessivel> {
@@ -25,16 +34,14 @@ export async function criarLocal(dto: NovoLocalDTO): Promise<{
   local: LocalAcessivel | null;
   location: string | null;
 }> {
-  // Envia os campos em camelCase (padrão DTO Java) para compatibilidade total
   const payload = {
-    cdTipoLocal: Number(dto.cdTipoLocal),
-    nmLocal: dto.nmLocal.trim(),
-    dsEndereco: dto.dsEndereco.trim(),
-    vlLatitude: Number(dto.vlLatitude),
-    vlLongitude: Number(dto.vlLongitude),
-    vlInclinacaoPct: Number(dto.vlInclinacaoPct),
-    vlLarguraCm: Number(dto.vlLarguraCm),
-    stAtivo: dto.stAtivo,
+    codigoTipoLocal: Number(dto.cdTipoLocal),
+    nome: dto.nmLocal.trim(),
+    endereco: dto.dsEndereco.trim(),
+    latitude: Number(dto.vlLatitude),
+    longitude: Number(dto.vlLongitude),
+    inclinacaoPct: Number(dto.vlInclinacaoPct),
+    larguraCm: Number(dto.vlLarguraCm),
   };
 
   const { data, location } = await apiFetch<unknown>('/locais', {
@@ -56,15 +63,13 @@ export async function atualizarLocal(
   dto: NovoLocalDTO
 ): Promise<LocalAcessivel> {
   const payload = {
-    cdLocal: Number(cdLocal),
-    cdTipoLocal: Number(dto.cdTipoLocal),
-    nmLocal: dto.nmLocal.trim(),
-    dsEndereco: dto.dsEndereco.trim(),
-    vlLatitude: Number(dto.vlLatitude),
-    vlLongitude: Number(dto.vlLongitude),
-    vlInclinacaoPct: Number(dto.vlInclinacaoPct),
-    vlLarguraCm: Number(dto.vlLarguraCm),
-    stAtivo: dto.stAtivo,
+    codigoTipoLocal: Number(dto.cdTipoLocal),
+    nome: dto.nmLocal.trim(),
+    endereco: dto.dsEndereco.trim(),
+    latitude: Number(dto.vlLatitude),
+    longitude: Number(dto.vlLongitude),
+    inclinacaoPct: Number(dto.vlInclinacaoPct),
+    larguraCm: Number(dto.vlLarguraCm),
   };
 
   const { data } = await apiFetch<unknown>(`/locais/${cdLocal}`, {
@@ -74,7 +79,7 @@ export async function atualizarLocal(
 
   return data && typeof data === 'object'
     ? normalizarLocalAcessivel(data)
-    : normalizarLocalAcessivel(payload);
+    : normalizarLocalAcessivel({ ...payload, codigo: cdLocal, stAtivo: dto.stAtivo });
 }
 
 export async function excluirLocal(cdLocal: number): Promise<void> {

@@ -29,7 +29,7 @@ export const NovoRelato: React.FC = () => {
   const [dsEmail, setDsEmail] = useState<string>('');
   const [nmUsuario, setNmUsuario] = useState<string>('');
   const [dsPerfilMobilidade, setDsPerfilMobilidade] = useState<string>(
-    'Cadeirante'
+    'CADEIRANTE'
   );
   const [dsSituacao, setDsSituacao] = useState<SituacaoRelato>('ACESSIVEL');
   const [dsObservacao, setDsObservacao] = useState<string>('');
@@ -388,12 +388,11 @@ export const NovoRelato: React.FC = () => {
                     onChange={(e) => setDsPerfilMobilidade(e.target.value)}
                     className="w-full px-3 py-2 border border-slate-400 text-sm bg-white"
                   >
-                    <option value="Cadeirante">Cadeirante</option>
-                    <option value="Baixa visao / Cego">Baixa visão / Pessoa cega</option>
-                    <option value="Idoso">Idoso</option>
-                    <option value="Mobilidade reduzida">Mobilidade reduzida</option>
-                    <option value="Carrinho de bebe">Pai / Mãe com carrinho de bebê</option>
-                    <option value="Cidadao colaborador">Cidadão colaborador</option>
+                    <option value="CADEIRANTE">Cadeirante</option>
+                    <option value="IDOSO">Idoso</option>
+                    <option value="BAIXA_VISAO">Baixa visão / Pessoa cega</option>
+                    <option value="MOBILIDADE_REDUZIDA">Mobilidade reduzida</option>
+                    <option value="CARRINHO_BEBE">Pai / Mãe com carrinho de bebê</option>
                   </select>
                 </div>
               </div>

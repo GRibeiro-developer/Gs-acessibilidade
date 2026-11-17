@@ -80,11 +80,9 @@ export const Locais: React.FC = () => {
             }
           })
         );
-
         const mapaRelatos = new Map(
           relatosPorLocal.map((item) => [item.cdLocal, item.relatos])
         );
-
         setLocais((prev) =>
           prev.map((loc) =>
             mapaRelatos.has(loc.cdLocal)
