@@ -167,7 +167,7 @@ rotalivre-front/
 
 - **Repositório Público no GitHub:** `[INSERIR LINK DO GITHUB AQUI]`
 - **Aplicação Publicada na Vercel:** `[INSERIR URL DA VERCEL AQUI]`
-- **API Java Publicada no Render:** `[INSERIR URL DO RENDER AQUI]`
+- **API Java Publicada no Render:** `https://rotalivre-gs.onrender.com`
 - **Vídeo de Demonstração no YouTube (até 3 min):** `[INSERIR LINK DO YOUTUBE AQUI]`
 
 ---
