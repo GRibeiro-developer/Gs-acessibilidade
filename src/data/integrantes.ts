@@ -111,9 +111,12 @@ export const RECURSOS_ACESSIBILIDADE_CATALOGO: RecursoAcessibilidade[] = [
 
 //Ponto de referencia
 export const PONTOS_REFERENCIA_SP = [
-  { nome: 'FIAP Paulista (Av. Paulista, 1106)', lat: -23.5641, lon: -46.6524 },
-  { nome: 'FIAP Aclimação (Av. Lins de Vasconcelos, 1222)', lat: -23.5738, lon: -46.6232 },
-  { nome: 'Estação Sé / Marco Zero SP', lat: -23.5505, lon: -46.6333 },
-  { nome: 'Parque Ibirapuera (Portão 3)', lat: -23.5874, lon: -46.6576 },
-  { nome: 'Terminal Pinheiros', lat: -23.5672, lon: -46.7019 },
+  { nome: 'Av. Paulista / Bela Vista (FIAP Paulista)', lat: -23.5641, lon: -46.6524 },
+  { nome: 'Aclimação / Vila Mariana (FIAP Aclimação)', lat: -23.5738, lon: -46.6232 },
+  { nome: 'Centro / Praça da Sé', lat: -23.5505, lon: -46.6333 },
+  { nome: 'Parque Ibirapuera / Moema', lat: -23.5874, lon: -46.6576 },
+  { nome: 'Pinheiros / Largo da Batata', lat: -23.5672, lon: -46.7019 },
+  { nome: 'Zona Leste / Estação Tatuapé', lat: -23.5403, lon: -46.5766 },
+  { nome: 'Zona Norte / Santana', lat: -23.5029, lon: -46.6249 },
+  { nome: 'Zona Sul / Santo Amaro', lat: -23.6549, lon: -46.7104 },
 ];

@@ -351,102 +351,64 @@ export const Locais: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-200 bg-[#F4F4F0] p-4 border border-slate-300 hc-card">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-              <div className="flex items-center gap-2.5">
+          <div className="pt-4 border-t border-slate-200 bg-slate-50 rounded-xl p-4 border border-slate-300 hc-card">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+              <div className="lg:col-span-4 flex items-center gap-2.5">
                 <input
                   id="toggle-raio-haversine"
                   type="checkbox"
                   checked={usarFiltroRaio}
                   onChange={(e) => setUsarFiltroRaio(e.target.checked)}
-                  className="w-4 h-4 border-slate-400 accent-[#0052CC]"
+                  className="w-5 h-5 border-slate-400 accent-[#0047B3]"
                 />
                 <label
                   htmlFor="toggle-raio-haversine"
-                  className="text-xs sm:text-sm font-bold text-[#111315] cursor-pointer"
+                  className="text-sm sm:text-base font-bold text-slate-900 cursor-pointer"
                 >
-                  Limitar por raio de distância (Haversine): até {raioKm} km
+                  Mostrar apenas locais próximos (até {raioKm} km)
                 </label>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleObterGpsNavegador}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-100 text-[#111315] border border-[#111315] text-xs font-bold transition hc-card"
-                >
-                  <IconPin className="w-3.5 h-3.5 text-[#0052CC]" />
-                  <span>Usar minha localização</span>
-                </button>
+              <div className="lg:col-span-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <label htmlFor="select-ponto-partida" className="sr-only">
+                  Escolha sua região de partida
+                </label>
                 <select
-                  aria-label="Escolher ponto de referência em São Paulo"
+                  id="select-ponto-partida"
                   onChange={(e) => {
                     const idx = Number(e.target.value);
                     const ref = PONTOS_REFERENCIA_SP[idx];
                     if (ref) {
                       setLatRef(ref.lat);
                       setLonRef(ref.lon);
-                      setStatusGps(`Referência: ${ref.nome}`);
+                      setStatusGps(`Mostrando distâncias a partir de: ${ref.nome}`);
                     }
                   }}
-                  className="px-2.5 py-1.5 border border-slate-400 text-xs bg-white font-semibold"
+                  className="flex-1 px-3 py-2 rounded-lg border border-slate-400 text-sm bg-white font-semibold text-slate-900"
                 >
                   {PONTOS_REFERENCIA_SP.map((p, idx) => (
                     <option key={p.nome} value={idx}>
-                      Origem: {p.nome}
+                      Perto de: {p.nome}
                     </option>
                   ))}
                 </select>
-              </div>
-            </div>
 
-            {statusGps && (
-              <p className="font-mono text-xs font-semibold text-[#0052CC] mb-2 hc-accent">
-                {statusGps}
-              </p>
-            )}
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-              <div>
-                <label
-                  htmlFor="input-lat-ref"
-                  className="block font-mono text-[11px] font-bold text-slate-600 mb-1"
+                <button
+                  type="button"
+                  onClick={handleObterGpsNavegador}
+                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-900 border border-slate-400 text-sm font-bold shrink-0 hc-card"
                 >
-                  Latitude de Origem
-                </label>
-                <input
-                  id="input-lat-ref"
-                  type="number"
-                  step="0.0001"
-                  value={latRef}
-                  onChange={(e) => setLatRef(Number(e.target.value))}
-                  className="w-full px-3 py-1.5 border border-slate-400 text-xs font-mono bg-white"
-                />
+                  <IconPin className="w-4 h-4 text-[#0047B3]" />
+                  <span>Usar minha localização</span>
+                </button>
               </div>
 
-              <div>
-                <label
-                  htmlFor="input-lon-ref"
-                  className="block font-mono text-[11px] font-bold text-slate-600 mb-1"
-                >
-                  Longitude de Origem
-                </label>
-                <input
-                  id="input-lon-ref"
-                  type="number"
-                  step="0.0001"
-                  value={lonRef}
-                  onChange={(e) => setLonRef(Number(e.target.value))}
-                  className="w-full px-3 py-1.5 border border-slate-400 text-xs font-mono bg-white"
-                />
-              </div>
-
-              <div>
+              <div className="lg:col-span-3">
                 <label
                   htmlFor="slider-raio-km"
-                  className="block font-mono text-[11px] font-bold text-slate-600 mb-1"
+                  className="block text-sm font-bold text-slate-800 mb-1"
                 >
-                  Alcance máximo: <strong>{raioKm} km</strong>
+                  Distância máxima: <strong>{raioKm} km</strong>
                 </label>
                 <input
                   id="slider-raio-km"
@@ -459,10 +421,16 @@ export const Locais: React.FC = () => {
                     setRaioKm(Number(e.target.value));
                     if (!usarFiltroRaio) setUsarFiltroRaio(true);
                   }}
-                  className="w-full accent-[#0052CC]"
+                  className="w-full accent-[#0047B3]"
                 />
               </div>
             </div>
+
+            {statusGps && (
+              <p className="mt-2 text-sm font-semibold text-[#0047B3] hc-accent">
+                {statusGps}
+              </p>
+            )}
           </div>
         </section>
 
