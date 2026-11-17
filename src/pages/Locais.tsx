@@ -351,27 +351,41 @@ export const Locais: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-200 bg-slate-50 rounded-xl p-4 border border-slate-300 hc-card">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
-              <div className="lg:col-span-4 flex items-center gap-2.5">
+          <div className="pt-4 border-t border-slate-200 bg-slate-50 rounded-xl p-4 sm:p-5 border border-slate-300 space-y-4 hc-card">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <label
+                htmlFor="toggle-raio-haversine"
+                className="flex items-center gap-2.5 cursor-pointer select-none"
+              >
                 <input
                   id="toggle-raio-haversine"
                   type="checkbox"
                   checked={usarFiltroRaio}
                   onChange={(e) => setUsarFiltroRaio(e.target.checked)}
-                  className="w-5 h-5 border-slate-400 accent-[#0047B3]"
+                  className="w-5 h-5 border-slate-400 accent-[#0047B3] shrink-0"
                 />
-                <label
-                  htmlFor="toggle-raio-haversine"
-                  className="text-sm sm:text-base font-bold text-slate-900 cursor-pointer"
-                >
+                <span className="text-sm sm:text-base font-bold text-slate-900">
                   Mostrar apenas locais próximos (até {raioKm} km)
-                </label>
-              </div>
+                </span>
+              </label>
 
-              <div className="lg:col-span-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                <label htmlFor="select-ponto-partida" className="sr-only">
-                  Escolha sua região de partida
+              <button
+                type="button"
+                onClick={handleObterGpsNavegador}
+                className="self-start sm:self-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-900 border border-slate-400 text-sm font-bold shrink-0 hc-card"
+              >
+                <IconPin className="w-4 h-4 text-[#0047B3]" />
+                <span>Usar minha localização atual</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-end pt-2 border-t border-slate-200">
+              <div className="min-w-0">
+                <label
+                  htmlFor="select-ponto-partida"
+                  className="block text-sm font-bold text-slate-800 mb-1.5"
+                >
+                  Região ou ponto de partida
                 </label>
                 <select
                   id="select-ponto-partida"
@@ -384,7 +398,7 @@ export const Locais: React.FC = () => {
                       setStatusGps(`Mostrando distâncias a partir de: ${ref.nome}`);
                     }
                   }}
-                  className="flex-1 px-3 py-2 rounded-lg border border-slate-400 text-sm bg-white font-semibold text-slate-900"
+                  className="w-full min-w-0 px-3 py-2.5 rounded-lg border border-slate-400 text-sm bg-white font-semibold text-slate-900"
                 >
                   {PONTOS_REFERENCIA_SP.map((p, idx) => (
                     <option key={p.nome} value={idx}>
@@ -392,21 +406,12 @@ export const Locais: React.FC = () => {
                     </option>
                   ))}
                 </select>
-
-                <button
-                  type="button"
-                  onClick={handleObterGpsNavegador}
-                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-900 border border-slate-400 text-sm font-bold shrink-0 hc-card"
-                >
-                  <IconPin className="w-4 h-4 text-[#0047B3]" />
-                  <span>Usar minha localização</span>
-                </button>
               </div>
 
-              <div className="lg:col-span-3">
+              <div className="min-w-0 pb-1">
                 <label
                   htmlFor="slider-raio-km"
-                  className="block text-sm font-bold text-slate-800 mb-1"
+                  className="block text-sm font-bold text-slate-800 mb-2"
                 >
                   Distância máxima: <strong>{raioKm} km</strong>
                 </label>
@@ -427,7 +432,7 @@ export const Locais: React.FC = () => {
             </div>
 
             {statusGps && (
-              <p className="mt-2 text-sm font-semibold text-[#0047B3] hc-accent">
+              <p className="text-sm font-semibold text-[#0047B3] hc-accent">
                 {statusGps}
               </p>
             )}
