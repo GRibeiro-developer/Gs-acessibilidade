@@ -7,8 +7,8 @@ Projeto: Rotalivre — Website colaborativo de acessibilidade urbana
 Disciplina: Front-End Design Engineering
 
 Integrantes:
-1. Nome Completo: Rodrigo Banharelli de Souza | RM: 570539 | Turma: 1TDS
-2. Nome Completo: Nycolas Melo Escobar        | RM: 573052 | Turma: 1TDS
-3. Nome Completo: Gabriel Augusto             | RM: 573120 | Turma: 1TDS
-4. Nome Completo: Tayna Jimenes Silva         | RM: 569337 | Turma: 1TDS
-5. Nome Completo: Davi Trindade Ribeiro       | RM: 571336 | Turma: 1TDS
+1. Nome Completo: Rodrigo Banharelli de Souza | RM: 570539 | Turma: 1TDSPW
+2. Nome Completo: Nycolas Melo Escobar        | RM: 573052 | Turma: 1TDSPW
+3. Nome Completo: Gabriel Augusto             | RM: 573120 | Turma: 1TDSPW
+4. Nome Completo: Tayna Jimenes Silva         | RM: 569337 | Turma: 1TDSPW
+5. Nome Completo: Davi Trindade Ribeiro       | RM: 571336 | Turma: 1TDSPW

@@ -116,7 +116,7 @@ export const Contato: React.FC = () => {
                     Desenvolvimento
                   </dt>
                   <dd className="font-bold text-[#111315] mt-0.5">
-                    FIAP · Turma 1TDSPW (Global Solution 2026)
+                    FIAP · Turma 1TDSPWPW (Global Solution 2026)
                   </dd>
                 </div>
                 <div className="p-3.5 bg-[#F4F4F0] border border-slate-300 hc-card">

@@ -1,6 +1,6 @@
 # Rotalivre — Mobilidade e Acessibilidade Urbana Colaborativa (Front-End)
 
-> **Global Solution 2026/2 — CitizenTech · FIAP (1TDS)**  
+> **Global Solution 2026/2 — CitizenTech · FIAP (1TDSPW)**  
 > Disciplina: **Front-End Design Engineering**
 
 O **Rotalivre** é um website colaborativo em que cidadãos (pessoas com deficiência, idosos, pessoas com mobilidade reduzida, pais com carrinho de bebê e colaboradores) consultam e relatam a acessibilidade de **calçadas, rampas, elevadores, estabelecimentos e obstáculos urbanos** antes de sair de casa.
@@ -121,15 +121,15 @@ rotalivre-front/
 
 ---
 
-## 7. Integrantes do Grupo (1TDS)
+## 7. Integrantes do Grupo (1TDSPW)
 
 | Nome Completo | RM | Turma | Papel / Frente Principal |
 |---|---|---|---|
-| Rodrigo Banharelli de Souza | 570539 | 1TDS | Front-End Design Engineering |
-| Nycolas Melo Escobar | 573052 | 1TDS | Domain Driven Design Using Java |
-| Gabriel Augusto | 573120 | 1TDS | Building Relational Database |
-| Tayna Jimenes Silva | 569337 | 1TDS | Artificial Intelligence & Chatbot |
-| Davi Trindade Ribeiro | 571336 | 1TDS | Computational Thinking Using Python & Software Engineering |
+| Rodrigo Banharelli de Souza | 570539 | 1TDSPW | Front-End Design Engineering |
+| Nycolas Melo Escobar | 573052 | 1TDSPW | Domain Driven Design Using Java |
+| Gabriel Augusto | 573120 | 1TDSPW | Building Relational Database |
+| Tayna Jimenes Silva | 569337 | 1TDSPW | Artificial Intelligence & Chatbot |
+| Davi Trindade Ribeiro | 571336 | 1TDSPW | Computational Thinking Using Python & Software Engineering |
 
 ---
 

@@ -4,7 +4,7 @@ export const INTEGRANTES_GRUPO: Integrante[] = [
   {
     rm: '570539',
     nome: 'Rodrigo Banharelli de Souza',
-    turma: '1TDSPW',
+    turma: '1TDSPWPW',
     papel: 'JAVA & Criação das APIs',
     frentePrincipal: 'Back-End Java & Arquitetura de API REST',
     frentesApoio: ['Software Engineering & Business Model', 'Domain Driven Design Using Java'],
@@ -17,7 +17,7 @@ export const INTEGRANTES_GRUPO: Integrante[] = [
   {
     rm: '573052',
     nome: 'Nycolas Melo Escobar',
-    turma: '1TDSPW',
+    turma: '1TDSPWPW',
     papel: 'Modelagem de Dados & Banco Oracle',
     frentePrincipal: 'Domain Driven Design Using Java (Spring Boot + JDBC + Docker + Render)',
     frentesApoio: ['Building Relational Database', 'Front-End Design Engineering'],
@@ -30,7 +30,7 @@ export const INTEGRANTES_GRUPO: Integrante[] = [
   {
     rm: '573120',
     nome: 'Gabriel Augusto',
-    turma: '1TDSPW',
+    turma: '1TDSPWPW',
     papel: 'Front-End Design Engineering & UX Acessível',
     frentePrincipal: 'Front-End (React + Vite + TypeScript + Tailwind + Fetch API)',
     frentesApoio: ['Artificial Intelligence & Chatbot', 'Computational Thinking Using Python'],
@@ -43,7 +43,7 @@ export const INTEGRANTES_GRUPO: Integrante[] = [
   {
     rm: '569337',
     nome: 'Tayna Jimenes Silva',
-    turma: '1TDSPW',
+    turma: '1TDSPWPW',
     papel: 'Inteligência Artificial & Ciência de Dados',
     frentePrincipal: 'Artificial Intelligence & Chatbot (Classificação, KMeans & API Flask)',
     frentesApoio: ['Computational Thinking Using Python', 'Building Relational Database'],
@@ -56,7 +56,7 @@ export const INTEGRANTES_GRUPO: Integrante[] = [
   {
     rm: '571336',
     nome: 'Davi Trindade Ribeiro',
-    turma: '1TDSPW',
+    turma: '1TDSPWPW',
     papel: 'Algoritmos em Python & Engenharia de Software',
     frentePrincipal: 'Computational Thinking Using Python & Software Engineering and Business Model',
     frentesApoio: ['Front-End Design Engineering', 'Artificial Intelligence & Chatbot'],
