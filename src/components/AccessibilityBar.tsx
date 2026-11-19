@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getApiBaseUrl,
-  hasApiBaseUrlOverride,
-  setApiBaseUrlOverride,
-} from '../services/api';
 import { IconCheck, IconContrast } from './Icons';
 
 export const AccessibilityBar: React.FC = () => {
@@ -15,12 +10,6 @@ export const AccessibilityBar: React.FC = () => {
     const saved = Number(localStorage.getItem('rotalivre_font_scale'));
     return saved === 112.5 || saved === 125 ? saved : 100;
   });
-
-  const [showApiConfig, setShowApiConfig] = useState<boolean>(false);
-  const [apiUrlInput, setApiUrlInput] = useState<string>(() => getApiBaseUrl());
-  const [isOverridden, setIsOverridden] = useState<boolean>(() =>
-    hasApiBaseUrlOverride()
-  );
 
   useEffect(() => {
     const root = document.documentElement;
@@ -36,23 +25,6 @@ export const AccessibilityBar: React.FC = () => {
     document.documentElement.style.fontSize = `${fontScale}%`;
     localStorage.setItem('rotalivre_font_scale', String(fontScale));
   }, [fontScale]);
-
-  const handleSaveApiUrl = (e: React.FormEvent) => {
-    e.preventDefault();
-    setApiBaseUrlOverride(apiUrlInput);
-    setIsOverridden(hasApiBaseUrlOverride());
-    setApiUrlInput(getApiBaseUrl());
-    setShowApiConfig(false);
-    window.dispatchEvent(new Event('rotalivre-api-url-changed'));
-  };
-
-  const handleResetApiUrl = () => {
-    setApiBaseUrlOverride(null);
-    setIsOverridden(false);
-    setApiUrlInput(getApiBaseUrl());
-    setShowApiConfig(false);
-    window.dispatchEvent(new Event('rotalivre-api-url-changed'));
-  };
 
   return (
     <div
@@ -133,63 +105,8 @@ export const AccessibilityBar: React.FC = () => {
               Letra maior
             </button>
           </div>
-
-          <button
-            type="button"
-            onClick={() => setShowApiConfig((prev) => !prev)}
-            aria-expanded={showApiConfig}
-            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 font-medium"
-          >
-            {isOverridden ? 'Trocar endereço da API (Editado)' : 'Trocar endereço da API'}
-          </button>
         </div>
       </div>
-
-      {showApiConfig && (
-        <div className="bg-slate-800 border-t border-slate-700 px-4 sm:px-6 py-3">
-          <form
-            onSubmit={handleSaveApiUrl}
-            className="max-w-6xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
-          >
-            <label htmlFor="api-url-config" className="font-semibold text-white shrink-0">
-              Endereço do servidor da API Java:
-            </label>
-            <input
-              id="api-url-config"
-              type="url"
-              required
-              value={apiUrlInput}
-              onChange={(e) => setApiUrlInput(e.target.value)}
-              placeholder="https://rotalivre-api.onrender.com"
-              className="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-500 text-white text-base"
-            />
-            <div className="flex items-center gap-2">
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-lg bg-[#0047B3] hover:bg-blue-700 text-white font-bold"
-              >
-                Salvar endereço
-              </button>
-              {isOverridden && (
-                <button
-                  type="button"
-                  onClick={handleResetApiUrl}
-                  className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white"
-                >
-                  Voltar ao endereço padrão
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={() => setShowApiConfig(false)}
-                className="px-3 py-2 text-slate-200 hover:text-white underline"
-              >
-                Fechar painel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
     </div>
   );
 };

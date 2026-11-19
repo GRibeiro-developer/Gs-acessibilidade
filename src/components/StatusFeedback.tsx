@@ -60,8 +60,6 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
           <p className="mt-2 text-base text-slate-800 leading-relaxed">{message}</p>
           <p className="mt-2 text-sm text-slate-600">
             Endereço consultado: <code className="px-1.5 py-0.5 bg-slate-100 rounded">{apiUrl}</code>.
-            Você pode mudar esse endereço clicando no botão <strong>Trocar endereço da API</strong>{' '}
-            no topo da página.
           </p>
 
           {onRetry && (

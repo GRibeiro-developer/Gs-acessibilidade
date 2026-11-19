@@ -11,15 +11,7 @@ const URL_OFICIAL_RENDER = 'https://rotalivre-gs.onrender.com';
 const URL_ANTIGA_PLACEHOLDER = 'https://rotalivre-api.onrender.com';
 
 export function getApiBaseUrl(): string {
-  const override = localStorage.getItem(STORAGE_KEY_API_OVERRIDE);
-  if (override && override.trim().length > 0) {
-    const limpa = override.trim().replace(/\/+$/, '');
-    if (limpa === URL_ANTIGA_PLACEHOLDER) {
-      localStorage.removeItem(STORAGE_KEY_API_OVERRIDE);
-      return URL_OFICIAL_RENDER;
-    }
-    return limpa;
-  }
+  localStorage.removeItem(STORAGE_KEY_API_OVERRIDE);
   const envUrl = String(import.meta.env.VITE_API_URL || URL_OFICIAL_RENDER)
     .trim()
     .replace(/\/+$/, '');
