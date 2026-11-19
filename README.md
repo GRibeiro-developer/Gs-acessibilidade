@@ -149,9 +149,8 @@ rotalivre-front/
    ```
 3. Configure a variável de ambiente `VITE_API_URL` no arquivo `.env` apontando para a API Java no Render (ou `http://localhost:8080` para testes locais):
    ```env
-   VITE_API_URL=https://rotalivre-api.onrender.com
+   VITE_API_URL=https://rotalivre-gs.onrender.com
    ```
-   *(Dica: você também pode alterar a URL da API em tempo real pelo botão **API (Render)** na barra superior do site).*
 4. Inicie o servidor de desenvolvimento:
    ```bash
    npm run dev
