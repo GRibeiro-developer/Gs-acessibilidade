@@ -164,15 +164,27 @@ rotalivre-front/
 
 ## 9. Links de Entrega
 
-- **Repositório Público no GitHub:** `[INSERIR LINK DO GITHUB AQUI]`
-- **Aplicação Publicada na Vercel:** `[INSERIR URL DA VERCEL AQUI]`
+- **Repositório Público no GitHub:** `https://github.com/GRibeiro-developer/Gs-acessibilidade`
+- **Aplicação Publicada na Vercel:** `https://gs-acessibilidade.vercel.app/`
 - **API Java Publicada no Render:** `https://rotalivre-gs.onrender.com`
 - **Vídeo de Demonstração no YouTube (até 3 min):** `[INSERIR LINK DO YOUTUBE AQUI]`
 
 ---
 
-## 10. Declaração de Uso de Inteligência Artificial Generativa
-
+## 10. Uso de Inteligência Artificial 
 Conforme exigido pelas diretrizes da Global Solution 2026/2:
-- **Ferramentas utilizadas:** Assistente de IA generativa para apoio na organização da estrutura de componentes, revisão de textos institucionais sobre as metas das ODS (11, 10 e 9), consulta aos dados públicos do Censo IBGE 2022 e validação de tipos TypeScript.
+- **Ferramentas utilizadas:** Assistente de IA generativa para apoio na organização da estrutura de componentes, revisão de textos, pesquisa e inserção sobre as metas das ODS (11, 10 e 9), consulta aos dados públicos do Censo IBGE 2022, validação do TypeScript e análise e criação do README.MD.
 - **Revisão humana:** Todo o código-fonte, regras de negócio (cálculo de Haversine, média ponderada de 30 dias, validação de 3+ usuários distintos para status `CONFIRMADO` e tratamento de `409 Conflict`), estilização Tailwind CSS e integração via Fetch API foram integralmente revisados, testados e validados pelos integrantes do grupo.
+
+---
+
+## 11. Contato
+
+- **Equipe Rotalivre — Turma 1TDSPW (FIAP)**
+- **Canal de atendimento na aplicação:** Rota `/contato` (`Falar com a equipe`)
+- **Integrantes para contato acadêmico:**
+  - Rodrigo Banharelli de Souza (RM 570539) — `rm570539@fiap.com.br`
+  - Nycolas Melo Escobar (RM 573052) — `rm573052@fiap.com.br`
+  - Gabriel Augusto (RM 573120) — `rm573120@fiap.com.br`
+  - Tayna Jimenes Silva (RM 569337) — `rm569337@fiap.com.br`
+  - Davi Trindade Ribeiro (RM 571336) — `rm571336@fiap.com.br`
