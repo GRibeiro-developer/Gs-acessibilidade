@@ -8,7 +8,7 @@ export const Integrantes: React.FC = () => {
   return (
     <div>
       <PageHeader
-        badge="Equipe 1TDSPW · FIAP"
+        badge="Equipe 1TDSPW  · FIAP"
         title="Quem desenvolve o Rotalivre"
         subtitle="Estudantes responsáveis pelo desenvolvimento integrado do banco de dados, API Java, interface web, modelos de inteligência artificial e documentação de engenharia."
         breadcrumbs={[
