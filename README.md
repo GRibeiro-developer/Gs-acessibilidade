@@ -167,7 +167,7 @@ rotalivre-front/
 - **Repositório Público no GitHub:** `https://github.com/GRibeiro-developer/Gs-acessibilidade`
 - **Aplicação Publicada na Vercel:** `https://gs-acessibilidade.vercel.app/`
 - **API Java Publicada no Render:** `https://rotalivre-gs.onrender.com`
-- **Vídeo de Demonstração no YouTube (até 3 min):** `[INSERIR LINK DO YOUTUBE AQUI]`
+- **Vídeo de Demonstração no YouTube (até 3 min):** `[[INSERIR LINK DO YOUTUBE AQUI]](https://youtu.be/pBd25AVRUw4?is=a_jsCWUrv67juAq4)`
 
 ---
 
